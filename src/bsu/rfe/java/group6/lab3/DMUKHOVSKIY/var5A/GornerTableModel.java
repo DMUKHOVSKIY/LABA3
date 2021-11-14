@@ -40,7 +40,7 @@ public class GornerTableModel extends AbstractTableModel {
     }
 
     public Object getValueAt(int row, int col) {
-// Вычислить значение X как НАЧАЛО_ОТРЕЗКА + ШАГ*НОМЕР_СТРОКИ
+        // Вычислить значение X как НАЧАЛО_ОТРЕЗКА + ШАГ*НОМЕР_СТРОКИ
         double x = from + step * row;
         if (col == 0) {
 // Если запрашивается значение 1-го столбца, то это X
@@ -48,10 +48,11 @@ public class GornerTableModel extends AbstractTableModel {
         } else {
 // Если запрашивается значение 2-го столбца, то это значение
 // многочлена
-            Double result = 0.0;
-// Вычисление значения в точке по схеме Горнера.
-// Вспомнить 1-ый курс и реализовать
-// ...
+            Double result=0.0;
+// Вычисление значения в точке по схеме Горнера
+            for (int i = 0; i < coefficients.length; i++) {
+                result += coefficients[i] * Math.pow(x, coefficients.length - i-1);
+            }
             return result;
         }
     }
