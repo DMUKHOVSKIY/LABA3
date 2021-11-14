@@ -43,6 +43,7 @@ public class MainFrame extends JFrame {
     private JMenuItem saveToTextMenuItem;
     private JMenuItem saveToGraphicsMenuItem;
     private JMenuItem searchValueMenuItem;
+    private JMenuItem AboutProgrammMenuItem;
     // Поля ввода для считывания значений переменных
     private JTextField textFieldFrom;
     private JTextField textFieldTo;
@@ -77,6 +78,10 @@ public class MainFrame extends JFrame {
         JMenu tableMenu = new JMenu("Таблица");
 // Добавить его в главное меню
         menuBar.add(tableMenu);
+        //Добавить в главное меню "Справка"
+        JMenu help = new JMenu("Справка");
+        //Добавить его в главное меню
+        menuBar.add(help);
 // Создать новое "действие" по сохранению в текстовый файл
         Action saveToTextAction = new AbstractAction("Сохранить в текстовый файл") {
             public void actionPerformed(ActionEvent event) {
@@ -127,15 +132,26 @@ public class MainFrame extends JFrame {
         Action searchValueAction = new AbstractAction("Найти значение многочлена") {
             public void actionPerformed(ActionEvent event) {
 // Запросить пользователя ввести искомую строку
-                String value =
-                        JOptionPane.showInputDialog(MainFrame.this, "Введите значение для поиска",
-                                "Поиск значения", JOptionPane.QUESTION_MESSAGE);
+                String value = JOptionPane.showInputDialog(MainFrame.this, "Введите значение для поиска",
+                        "Поиск значения", JOptionPane.QUESTION_MESSAGE);
 // Установить введенное значение в качестве иголки
                 renderer.setNeedle(value);
 // Обновить таблицу
                 getContentPane().repaint();
             }
         };
+//Создать новое действие по поиску фамилии и группы автора программы
+        Action aboutProgram = new AbstractAction("О программе") {
+            public void actionPerformed(ActionEvent e) {
+//Показ строки с именем и фамилией
+                JOptionPane.showMessageDialog(MainFrame.this, "Дмуховский Герман, 6 группа",
+                        "Автор программы", JOptionPane.INFORMATION_MESSAGE);
+            }
+        };
+//Добавить соответсвующий пункт подменю в меню "Справка"
+        AboutProgrammMenuItem = help.add(aboutProgram);
+//По умолчанию пункт меню является недоступным(данных еще не ввели)
+        AboutProgrammMenuItem.setEnabled(false);
 // Добавить действие в меню "Таблица"
         searchValueMenuItem = tableMenu.add(searchValueAction);
 // По умолчанию пункт меню является недоступным (данных ещѐ нет)
@@ -234,6 +250,7 @@ public class MainFrame extends JFrame {
                     saveToTextMenuItem.setEnabled(true);
                     saveToGraphicsMenuItem.setEnabled(true);
                     searchValueMenuItem.setEnabled(true);
+                    AboutProgrammMenuItem.setEnabled(true);
                 } catch (NumberFormatException ex) {
 // В случае ошибки преобразования чисел показать сообщение об ошибке
                     JOptionPane.showMessageDialog(MainFrame.this,
