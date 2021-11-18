@@ -276,6 +276,7 @@ public class MainFrame extends JFrame {
                 saveToTextMenuItem.setEnabled(false);
                 saveToGraphicsMenuItem.setEnabled(false);
                 searchValueMenuItem.setEnabled(false);
+                AboutProgrammMenuItem.setEnabled(false);
 // Обновить область содержания главного окна
                 getContentPane().validate();
             }

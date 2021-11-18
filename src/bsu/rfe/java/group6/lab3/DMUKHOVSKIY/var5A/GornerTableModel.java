@@ -7,6 +7,8 @@ public class GornerTableModel extends AbstractTableModel {
     private Double from;
     private Double to;
     private Double step;
+    //Значение многочлена в точке
+    private Double res = 0.0;
 
     public GornerTableModel(Double from, Double to, Double step,
                             Double[] coefficients) {
@@ -30,7 +32,7 @@ public class GornerTableModel extends AbstractTableModel {
 
     public int getColumnCount() {
 // В данной модели два столбца
-        return 2;
+        return 3;
     }
 
     public int getRowCount() {
@@ -38,23 +40,28 @@ public class GornerTableModel extends AbstractTableModel {
 // исходя из шага табулирования
         return new Double(Math.ceil((to - from) / step)).intValue() + 1;
     }
-
     public Object getValueAt(int row, int col) {
         // Вычислить значение X как НАЧАЛО_ОТРЕЗКА + ШАГ*НОМЕР_СТРОКИ
         double x = from + step * row;
         if (col == 0) {
 // Если запрашивается значение 1-го столбца, то это X
             return x;
-        } else {
-// Если запрашивается значение 2-го столбца, то это значение
-// многочлена
-            Double result=0.0;
+        } else if (col == 1) {
+// Если запрашивается значение 2-го столбца, то это значение многочлена
 // Вычисление значения в точке по схеме Горнера
+            Double result = 0.0;
             for (int i = 0; i < coefficients.length; i++) {
-                result += coefficients[i] * Math.pow(x, coefficients.length - i-1);
+                result += coefficients[i] * Math.pow(x, coefficients.length - i - 1);
             }
+//Копируем результат для вычислений в третьей колонке
+            res=result;
             return result;
+        } else {
+//Если запрашивается значение 3-го столбца:
+//Возвращает true, если дробная часть значения многочлена в точке(res%1) является записью квадрата целого числа(res-res%1)
+            return ( res % 1== Math.pow(res - res%1,2));
         }
+
     }
 
     public String getColumnName(int col) {
@@ -62,14 +69,27 @@ public class GornerTableModel extends AbstractTableModel {
             case 0:
 // Название 1-го столбца
                 return "Значение X";
-            default:
+            case 1:
 // Название 2-го столбца
                 return "Значение многочлена";
+            case 2:
+//Название 3-го столбца
+                return "Дробная часть является квадратом?";
+            default:
+                throw new IllegalStateException("Unexpected value: " + col);
         }
     }
 
     public Class<?> getColumnClass(int col) {
-// И в 1-ом и во 2-ом столбце находятся значения типа Double
-        return Double.class;
+
+        switch (col) {
+//В 3-ем столбце находятся значения типа Boolean
+            case 2:
+                return Boolean.class;
+            default:
+//В 1-ом и во 2-ом столбце находятся значения типа Double
+                return Double.class;
+        }
     }
+
 }
