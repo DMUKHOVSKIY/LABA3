@@ -40,6 +40,7 @@ public class GornerTableModel extends AbstractTableModel {
 // исходя из шага табулирования
         return new Double(Math.ceil((to - from) / step)).intValue() + 1;
     }
+
     public Object getValueAt(int row, int col) {
         // Вычислить значение X как НАЧАЛО_ОТРЕЗКА + ШАГ*НОМЕР_СТРОКИ
         double x = from + step * row;
@@ -54,14 +55,20 @@ public class GornerTableModel extends AbstractTableModel {
                 result += coefficients[i] * Math.pow(x, coefficients.length - i - 1);
             }
 //Копируем результат для вычислений в третьей колонке
-            res=result;
+            res = result;
             return result;
         } else {
 //Если запрашивается значение 3-го столбца:
-//Возвращает true, если дробная часть значения многочлена в точке(res%1) является записью квадрата целого числа(res-res%1)
-            return ( res % 1== Math.pow(res - res%1,2));
+//Возвращает true, если дробная часть значения многочлена в точке является записью квадрата целого числа
+            String[] a = String.valueOf(res).split("[.]");
+            int b = Integer.parseInt(a[0]);
+            int c = Integer.parseInt(a[1]);
+            boolean g = false;
+            if ((b * b) == c) {
+                g = true;
+            }
+            return g;
         }
-
     }
 
     public String getColumnName(int col) {

@@ -1,7 +1,6 @@
 package bsu.rfe.java.group6.lab3.DMUKHOVSKIY.var5A;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -120,8 +119,7 @@ public class MainFrame extends JFrame {
                         JFileChooser.APPROVE_OPTION) ;
 // Если результат его показа успешный,
 // сохранить данные в двоичный файл
-                saveToGraphicsFile(
-                        fileChooser.getSelectedFile());
+                saveToGraphicsFile(fileChooser.getSelectedFile());
             }
         };
 // Добавить соответствующий пункт подменю в меню "Файл"
